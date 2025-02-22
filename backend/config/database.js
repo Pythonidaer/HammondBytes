@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = ({ env }) => ({
   connection: {
@@ -9,11 +9,11 @@ module.exports = ({ env }) => ({
       database: env('DATABASE_NAME', 'hammondbytes'),
       user: env('DATABASE_USERNAME', 'hammondbytes'),
       password: env('DATABASE_PASSWORD'),
-      ssl: true,
+      ssl: env.bool('DATABASE_SSL', false),
       pool: {
         min: 0,
-        max: 5
-      }
-    }
-  }
-});
+        max: 5,
+      },
+    },
+  },
+})
