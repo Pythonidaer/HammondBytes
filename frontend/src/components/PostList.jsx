@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { strapiApi } from '../api/strapi';
+import { strapiApi, getStrapiURL } from '../api/strapi';
 
 export default function PostList() {
   const { data: posts, isLoading, error } = useQuery({
@@ -41,7 +41,7 @@ export default function PostList() {
                 <div className="aspect-[3/2] overflow-hidden">
                   {post.CoverImage?.formats?.small?.url ? (
                     <img
-                      src={`http://localhost:1337${post.CoverImage.formats.small.url}`}
+                      src={getStrapiURL(post.CoverImage.formats.small.url)}
                       alt={post.Title || 'Blog post image'}
                       className="w-full h-full object-cover"
                       loading="lazy"
