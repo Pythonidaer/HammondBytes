@@ -9,17 +9,11 @@ module.exports = ({ env }) => ({
       database: env('DATABASE_NAME', 'hammondbytes'),
       user: env('DATABASE_USERNAME', 'hammondbytes'),
       password: env('DATABASE_PASSWORD'),
-      ssl: {
-        rejectUnauthorized: false,
-        ca: env('DATABASE_CA', undefined),
-        key: env('DATABASE_KEY', undefined),
-        cert: env('DATABASE_CERT', undefined)
-      },
+      ssl: true,
       pool: {
         min: 0,
         max: 5
       }
-    },
-    debug: false,
-  },
+    }
+  }
 });
