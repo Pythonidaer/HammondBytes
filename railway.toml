@@ -1,19 +1,23 @@
 [build]
 builder = "nixpacks"
+watchPatterns = ["backend/**/*"]
+nixpacksConfigPath = "backend"
 
 [phases.setup]
 nixPkgs = ["nodejs-18_x", "npm"]
 
 [phases.install]
-cmds = ["cd backend", "npm install"]
+cmds = ["npm install"]
 
 [phases.build]
-cmds = ["cd backend", "npm run build"]
+cmds = ["npm run build"]
 
 [start]
-cmd = "cd backend && npm start"
+cmd = "npm start"
 
 [deploy]
-healthcheckPath = "/"
-healthcheckTimeout = 100
+startCommand = "npm start"
 restartPolicyType = "on_failure"
+numReplicas = 1
+healthcheckPath = "/admin"
+healthcheckTimeout = 100
