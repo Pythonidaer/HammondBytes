@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
-import { strapiApi, getStrapiURL } from '../api/strapi';
+import { strapiApi } from '../api/strapi';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 
 export default function PostDetail() {
   const { id: slug } = useParams();
@@ -74,7 +76,7 @@ export default function PostDetail() {
         {post.CoverImage && (
           <div className="mb-8">
             <img
-              src={getStrapiURL(post.CoverImage.formats.large.url)}
+              src={`${API_URL}${post.CoverImage.formats.large.url}`}
               alt={post.Title}
               className="w-full rounded-lg"
             />
