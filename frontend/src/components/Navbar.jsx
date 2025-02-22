@@ -21,7 +21,7 @@ export default function Navbar() {
             GitHub
           </a>
           <a
-            href="https://portfolio.jonamichahammo.com/"
+            href="https://jonathan-hammond.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm hover:text-[#99c9ff] transition-colors hidden sm:inline-block"
