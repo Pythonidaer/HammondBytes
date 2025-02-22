@@ -76,7 +76,7 @@ export default function PostDetail() {
         {post.CoverImage && (
           <div className="mb-8">
             <img
-              src={`${API_URL}${post.CoverImage.formats.large.url}`}
+              src={post.CoverImage.formats.large.url.startsWith('http') ? post.CoverImage.formats.large.url : `${API_URL}${post.CoverImage.formats.large.url}`}
               alt={post.Title}
               className="w-full rounded-lg"
             />

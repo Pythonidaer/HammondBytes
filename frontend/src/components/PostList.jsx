@@ -43,7 +43,7 @@ export default function PostList() {
                 <div className="aspect-[3/2] overflow-hidden">
                   {post.CoverImage?.formats?.small?.url ? (
                     <img
-                      src={`${API_URL}${post.CoverImage.formats.small.url}`}
+                      src={post.CoverImage.formats.small.url.startsWith('http') ? post.CoverImage.formats.small.url : `${API_URL}${post.CoverImage.formats.small.url}`}
                       alt={post.Title || 'Blog post image'}
                       className="w-full h-full object-cover"
                       loading="lazy"
