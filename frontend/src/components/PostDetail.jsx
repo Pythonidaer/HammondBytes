@@ -7,10 +7,23 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 export default function PostDetail() {
   const { id: slug } = useParams();
 
-  const { data: posts, isLoading, error } = useQuery({
+  const { data: post, isLoading, error } = useQuery({
     queryKey: ['post', slug],
     queryFn: async () => {
-      const response = await strapiApi.get(`/posts?filters[Slug][$eq]=${slug}&populate[CoverImage][fields][0]=url&populate[CoverImage][fields][1]=formats&populate=*`);
+      // First, find the post ID using the slug
+      const findResponse = await strapiApi.get('/posts', {
+        params: {
+          'filters[Slug][$eq]': slug
+        }
+      });
+      
+      if (!findResponse.data?.data?.[0]?.id) {
+        throw new Error('Post not found');
+      }
+
+      // Then get the full post data with the ID
+      const postId = findResponse.data.data[0].id;
+      const response = await strapiApi.get(`/posts/${postId}?populate=*`);
       return response.data;
     },
   });
@@ -31,7 +44,7 @@ export default function PostDetail() {
     );
   }
 
-  if (!posts?.data?.[0]) {
+  if (!post?.data) {
     return (
       <div className="text-center p-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Post not found</h2>
@@ -42,7 +55,7 @@ export default function PostDetail() {
     );
   }
 
-  const post = posts.data[0];
+  const postData = post.data;
 
   return (
     <div className="bg-white">
@@ -50,7 +63,7 @@ export default function PostDetail() {
         {/* Post metadata */}
         <div className="mb-6">
           <span className="text-sm text-[#002ead] uppercase font-medium tracking-wide">
-            {new Date(post.publishedAt).toLocaleDateString('en-US', {
+            {new Date(postData.publishedAt).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -60,7 +73,7 @@ export default function PostDetail() {
 
         {/* Post title */}
         <h1 className="text-4xl font-bold text-[#2a2a40] mb-6 leading-tight">
-          {post.Title}
+          {postData.Title}
         </h1>
 
         {/* Author info */}
@@ -73,11 +86,11 @@ export default function PostDetail() {
         </div>
 
         {/* Featured image */}
-        {post.CoverImage && (
+        {postData.CoverImage && (
           <div className="mb-8">
             <img
-              src={post.CoverImage.formats.large.url.startsWith('http') ? post.CoverImage.formats.large.url : `${API_URL}${post.CoverImage.formats.large.url}`}
-              alt={post.Title}
+              src={postData.CoverImage.formats.large.url.startsWith('http') ? postData.CoverImage.formats.large.url : `${API_URL}${postData.CoverImage.formats.large.url}`}
+              alt={postData.Title}
               className="w-full rounded-lg"
             />
           </div>
@@ -85,7 +98,7 @@ export default function PostDetail() {
 
         {/* Post content */}
         <div className="prose prose-lg max-w-none">
-          {post.Content?.map((block, index) => (
+          {postData.Content?.map((block, index) => (
             <div key={index}>
               {block.children?.map((child, childIndex) => (
                 <p key={childIndex} className="mb-4 text-gray-700">

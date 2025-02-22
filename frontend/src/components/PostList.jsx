@@ -8,7 +8,7 @@ export default function PostList() {
   const { data: posts, isLoading, error } = useQuery({
     queryKey: ['posts'],
     queryFn: async () => {
-      const response = await strapiApi.get('/posts?populate[CoverImage][fields][0]=url&populate[CoverImage][fields][1]=formats');
+      const response = await strapiApi.get('/posts?populate=*');
       return response.data;
     },
   });
