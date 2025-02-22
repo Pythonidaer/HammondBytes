@@ -10,7 +10,7 @@ export default function PostDetail() {
   const { data: posts, isLoading, error } = useQuery({
     queryKey: ['post', slug],
     queryFn: async () => {
-      const response = await strapiApi.get(`/posts?filters[Slug][$eq]=${slug}&populate=*`);
+      const response = await strapiApi.get(`/posts?filters[Slug][$eq]=${slug}&populate[CoverImage][fields][0]=url&populate[CoverImage][fields][1]=formats&populate=*`);
       return response.data;
     },
   });
