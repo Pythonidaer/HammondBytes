@@ -54,41 +54,18 @@ export default function PostList() {
                     </div>
                   )}
                 </div>
-              </Link>
-              <div className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">
-                  <Link 
-                    to={`/posts/${post.Slug}`}
-                    className="text-white hover:text-[#0066cc] transition-colors"
-                  >
-                    {post.Title || 'Untitled Post'}
-                  </Link>
-                </h2>
-                <p className="text-gray-400 mb-4 line-clamp-2 text-sm sm:text-base">
-                  {post.Content?.[0]?.children?.[0]?.text || 'No content available'}
-                </p>
-                <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500">
-                  <div className="flex items-center gap-2">
-                    <time>
-                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </time>
-                    <span>·</span>
-                    <span>Jonathan Hammond</span>
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold text-white mb-2">{post.Title}</h2>
+                  <div className="flex items-center text-sm text-gray-400">
+                    <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                    <span className="mx-2">·</span>
+                    <span>5 min read</span>
                   </div>
-                  <span>5 min read</span>
                 </div>
-              </div>
+              </Link>
             </article>
           ))}
         </div>
-        {posts.data.length === 0 && (
-          <div className="text-center text-gray-600">
-            No posts available yet.
-          </div>
-        )}
       </div>
     </div>
   );

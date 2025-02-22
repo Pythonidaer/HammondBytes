@@ -10,21 +10,14 @@ export default function PostDetail() {
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['post', slug],
     queryFn: async () => {
-      // First, find the post ID using the slug
-      const findResponse = await strapiApi.get('/posts', {
-        params: {
-          'filters[Slug][$eq]': slug
-        }
-      });
+      const response = await strapiApi.get(`/posts?filters[Slug][$eq]=${encodeURIComponent(slug)}&populate=*`);
+      const posts = response.data;
       
-      if (!findResponse.data?.data?.[0]?.id) {
+      if (!posts?.data?.[0]) {
         throw new Error('Post not found');
       }
-
-      // Then get the full post data with the ID
-      const postId = findResponse.data.data[0].id;
-      const response = await strapiApi.get(`/posts/${postId}?populate=*`);
-      return response.data;
+      
+      return { data: posts.data[0] };
     },
   });
 
