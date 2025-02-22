@@ -1,12 +1,19 @@
 [build]
 builder = "nixpacks"
-buildCommand = "cd backend && npm install && npm run build"
+
+[phases.setup]
+nixPkgs = ["nodejs-18_x", "npm"]
+
+[phases.install]
+cmds = ["cd backend", "npm install"]
+
+[phases.build]
+cmds = ["cd backend", "npm run build"]
+
+[start]
+cmd = "cd backend && npm start"
 
 [deploy]
-startCommand = "cd backend && npm start"
 healthcheckPath = "/"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
-
-[build.args]
-NODE_VERSION = "18.x"
