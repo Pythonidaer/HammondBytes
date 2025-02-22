@@ -19,5 +19,9 @@ cmd = "npm start"
 startCommand = "npm start"
 restartPolicyType = "on_failure"
 numReplicas = 1
-healthcheckPath = "/admin"
+healthcheckPath = "/healthcheck"
 healthcheckTimeout = 100
+
+[deploy.env]
+PORT = "1337"
+HOST = "0.0.0.0"
