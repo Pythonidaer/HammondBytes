@@ -11,7 +11,7 @@ cmds = ["npm config set legacy-peer-deps true"]
 cmds = ["npm install --production=false"]
 
 [phases.build]
-cmds = ["npm run build", "npm run strapi import -- --file export.tar.gz.tar.gz.enc --key YOUR_ENCRYPTION_KEY"]
+cmds = ["npm run build", "ENCRYPTION_KEY='Nana.2013' npm run strapi import -- --file export.tar.gz.tar.gz.enc --key $ENCRYPTION_KEY"]
 
 [start]
 cmd = "npm run start"
