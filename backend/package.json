@@ -7,7 +7,7 @@
     "build": "strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
-    "start": "strapi start",
+    "start": "node node_modules/strapi/bin/strapi.js start",
     "strapi": "strapi"
   },
   "dependencies": {
@@ -22,7 +22,7 @@
     "styled-components": "^6.0.0"
   },
   "engines": {
-    "node": ">=18.0.0 <=22.x.x",
+    "node": "18.x",
     "npm": ">=6.0.0"
   },
   "strapi": {
