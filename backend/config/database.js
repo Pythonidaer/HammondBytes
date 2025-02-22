@@ -4,13 +4,16 @@ module.exports = ({ env }) => ({
   connection: {
     client: 'postgres',
     connection: {
-      connectionString: env('DATABASE_URL'),
-      host: env('DATABASE_HOST'),
-      port: env.int('DATABASE_PORT'),
-      database: env('DATABASE_NAME'),
-      user: env('DATABASE_USERNAME'),
+      host: env('DATABASE_HOST', 'hammondbytes-postgres.flycast'),
+      port: env.int('DATABASE_PORT', 5432),
+      database: env('DATABASE_NAME', 'hammondbytes'),
+      user: env('DATABASE_USERNAME', 'hammondbytes'),
       password: env('DATABASE_PASSWORD'),
-      ssl: env.bool('DATABASE_SSL', false),
+      ssl: {
+        rejectUnauthorized: false
+      },
+      schema: 'public'
     },
+    debug: false,
   },
 });
