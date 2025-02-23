@@ -43,7 +43,7 @@ export default function PostList() {
                 <div className="aspect-[3/2] overflow-hidden">
                   {post.CoverImage?.url ? (
                     <img
-                      src={`${API_URL}${post.CoverImage.url}`}
+                      src={post.CoverImage.url}
                       alt={post.Title || 'Blog post image'}
                       className="w-full h-full object-cover"
                       loading="lazy"

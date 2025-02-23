@@ -82,7 +82,7 @@ export default function PostDetail() {
         {postData.CoverImage && (
           <div className="mb-8">
             <img
-              src={`${API_URL}${postData.CoverImage.url}`}
+              src={postData.CoverImage.url}
               alt={postData.Title}
               className="w-full rounded-lg"
             />
