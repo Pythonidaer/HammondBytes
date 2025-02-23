@@ -1,9 +1,15 @@
 module.exports = ({ env }) => ({
   upload: {
     config: {
-      provider: 'local',
+      provider: 'cloudinary',
       providerOptions: {
-        sizeLimit: 100 * 1024 * 1024 // 100mb in bytes
+        cloud_name: env('CLOUDINARY_NAME'),
+        api_key: env('CLOUDINARY_KEY'),
+        api_secret: env('CLOUDINARY_SECRET'),
+      },
+      actionOptions: {
+        upload: {},
+        delete: {},
       },
     },
   },
