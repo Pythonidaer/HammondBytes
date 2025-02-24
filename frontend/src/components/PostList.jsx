@@ -4,6 +4,20 @@ import { strapiApi } from '../api/strapi';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 
+const getOptimizedImageUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('/')) {
+    return `${API_URL}${url}`;
+  }
+  // Add Cloudinary optimization parameters
+  if (url.includes('cloudinary.com')) {
+    const baseUrl = url.split('/upload/')[0];
+    const imagePath = url.split('/upload/')[1];
+    return `${baseUrl}/upload/q_auto,f_auto,w_800/${imagePath}`;
+  }
+  return url;
+};
+
 export default function PostList() {
   const { data: posts, isLoading, error } = useQuery({
     queryKey: ['posts'],
@@ -43,7 +57,7 @@ export default function PostList() {
                 <div className="aspect-[3/2] overflow-hidden">
                   {post.CoverImage?.url ? (
                     <img
-                      src={post.CoverImage.url.startsWith('/') ? `${API_URL}${post.CoverImage.url}` : post.CoverImage.url}
+                      src={getOptimizedImageUrl(post.CoverImage.url)}
                       alt={post.Title || 'Blog post image'}
                       className="w-full h-full object-cover"
                       loading="lazy"

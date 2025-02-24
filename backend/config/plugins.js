@@ -10,7 +10,12 @@ module.exports = ({ env }) => ({
       actionOptions: {
         upload: {
           folder: "strapi-uploads",
-          upload_preset: "strapi-optimized",
+          transformation: {
+            quality: 'auto',
+            fetch_format: 'auto',
+            width: 'auto',
+            crop: 'scale',
+          },
         },
         delete: {},
       },
