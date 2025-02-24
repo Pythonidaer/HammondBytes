@@ -43,6 +43,23 @@
   color: white;
 }
 
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #0a0a23;
+  color: #0a0a23;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background-color: #0a0a23;
+  color: white;
+}
+
 .link-blue {
   color: #0066cc !important;
   text-decoration: none;
@@ -71,13 +88,13 @@ html, body, #root {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a:not(.btn-nav-inverse):not(.link-blue) {
+a:not(.btn-nav-inverse):not(.btn-outline):not(.link-blue) {
   font-weight: 500;
   color: #fff;
   text-decoration: inherit;
 }
 
-a:not(.btn-nav-inverse):not(.link-blue):hover {
+a:not(.btn-nav-inverse):not(.btn-outline):not(.link-blue):hover {
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -119,10 +136,10 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:not(.btn-nav-inverse):not(.link-blue) {
+  a:not(.btn-nav-inverse):not(.btn-outline):not(.link-blue) {
     color: #0a0a23;
   }
-  a:not(.btn-nav-inverse):not(.link-blue):hover {
+  a:not(.btn-nav-inverse):not(.btn-outline):not(.link-blue):hover {
     color: rgba(10, 10, 35, 0.8);
   }
   button {
