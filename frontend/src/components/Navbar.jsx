@@ -38,7 +38,7 @@ export default function Navbar() {
           </a>
           <Link
             to="/posts"
-            className="px-4 py-1 bg-white text-[#0a0a23] text-sm font-medium rounded hover:bg-[#99c9ff] transition-colors"
+            className="px-4 py-1 bg-white text-[#0a0a23] text-sm font-medium rounded hover:bg-[#ddeeff] transition-colors"
           >
             Blog
           </Link>

@@ -78,15 +78,15 @@ export default function PostList() {
                 <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">
                   <Link 
                     to={`/posts/${post.Slug}`}
-                    className="text-white hover:text-[#0066cc] transition-colors"
+                    className="text-white hover:text-[#99c9ff] transition-colors"
                   >
                     {post.Title || 'Untitled Post'}
                   </Link>
                 </h2>
-                <p className="text-gray-400 mb-4 line-clamp-2 text-sm sm:text-base">
+                <p className="text-gray-300 mb-4 line-clamp-2 text-sm sm:text-base">
                   {post.Content?.[0]?.children?.[0]?.text || 'No content available'}
                 </p>
-                <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500">
+                <div className="flex items-center justify-between text-xs sm:text-sm text-gray-300">
                   <div className="flex items-center gap-2">
                     <time>
                       {new Date(post.publishedAt).toLocaleDateString('en-US', {
