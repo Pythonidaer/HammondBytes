@@ -6,18 +6,16 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 
 // Standard dimensions for detail view
 const DETAIL_WIDTH = 1200;
-const DETAIL_HEIGHT = Math.floor(DETAIL_WIDTH * (2/3)); // Maintaining 3:2 aspect ratio
+const DETAIL_HEIGHT = 800; // 3:2 aspect ratio
 
 const getOptimizedImageUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('/')) {
     return `${API_URL}${url}`;
   }
-  // Add Cloudinary optimization parameters
   if (url.includes('cloudinary.com')) {
     const baseUrl = url.split('/upload/')[0];
     const imagePath = url.split('/upload/')[1];
-    // Force exact dimensions to prevent CLS
     return `${baseUrl}/upload/c_fill,w_${DETAIL_WIDTH},h_${DETAIL_HEIGHT},q_auto,f_auto/${imagePath}`;
   }
   return url;
@@ -99,16 +97,15 @@ export default function PostDetail() {
 
         {/* Featured image */}
         {postData.CoverImage?.url && (
-          <div className="mb-8 relative bg-gray-100 aspect-[3/2] overflow-hidden rounded-lg">
-            <img
-              src={getOptimizedImageUrl(postData.CoverImage.url)}
-              alt={postData.Title || 'Blog post cover image'}
-              width={DETAIL_WIDTH}
-              height={DETAIL_HEIGHT}
-              className="absolute inset-0 w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
+          <img
+            src={getOptimizedImageUrl(postData.CoverImage.url)}
+            alt={postData.Title || 'Blog post cover image'}
+            width={DETAIL_WIDTH}
+            height={DETAIL_HEIGHT}
+            className="w-full aspect-[3/2] object-cover bg-gray-100 rounded-lg mb-8"
+            loading="lazy"
+            decoding="async"
+          />
         )}
 
         {/* Post content */}

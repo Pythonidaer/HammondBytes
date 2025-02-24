@@ -6,18 +6,16 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 
 // Standard dimensions for post thumbnails
 const THUMBNAIL_WIDTH = 800;
-const THUMBNAIL_HEIGHT = Math.floor(THUMBNAIL_WIDTH * (2/3)); // Maintaining 3:2 aspect ratio
+const THUMBNAIL_HEIGHT = 533; // 3:2 aspect ratio
 
 const getOptimizedImageUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('/')) {
     return `${API_URL}${url}`;
   }
-  // Add Cloudinary optimization parameters
   if (url.includes('cloudinary.com')) {
     const baseUrl = url.split('/upload/')[0];
     const imagePath = url.split('/upload/')[1];
-    // Force exact dimensions to prevent CLS
     return `${baseUrl}/upload/c_fill,w_${THUMBNAIL_WIDTH},h_${THUMBNAIL_HEIGHT},q_auto,f_auto/${imagePath}`;
   }
   return url;
@@ -59,22 +57,22 @@ export default function PostList() {
               className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               <Link to={`/posts/${post.Slug}`} className="block">
-                <div className="aspect-[3/2] overflow-hidden relative bg-gray-100">
-                  {post.CoverImage?.url ? (
-                    <img
-                      src={getOptimizedImageUrl(post.CoverImage.url)}
-                      alt={post.Title || 'Blog post image'}
-                      width={THUMBNAIL_WIDTH}
-                      height={THUMBNAIL_HEIGHT}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-400">No image</span>
-                    </div>
-                  )}
-                </div>
+                {/* Use CSS aspect-ratio instead of a div wrapper */}
+                {post.CoverImage?.url ? (
+                  <img
+                    src={getOptimizedImageUrl(post.CoverImage.url)}
+                    alt={post.Title || 'Blog post image'}
+                    width={THUMBNAIL_WIDTH}
+                    height={THUMBNAIL_HEIGHT}
+                    className="w-full aspect-[3/2] object-cover bg-gray-100 rounded-t-lg"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="w-full aspect-[3/2] bg-gray-100 rounded-t-lg flex items-center justify-center">
+                    <span className="text-gray-400">No image</span>
+                  </div>
+                )}
               </Link>
               <div className="p-4 sm:p-6">
                 <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">
