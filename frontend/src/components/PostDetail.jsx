@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 const DETAIL_WIDTH = 1200;
 const DETAIL_HEIGHT = 800; // 3:2 aspect ratio
 
-const getOptimizedImageUrl = (url) => {
+const getOptimizedImageUrl = (url, width = DETAIL_WIDTH) => {
   if (!url) return '';
   if (url.startsWith('/')) {
     return `${API_URL}${url}`;
@@ -16,9 +16,17 @@ const getOptimizedImageUrl = (url) => {
   if (url.includes('cloudinary.com')) {
     const baseUrl = url.split('/upload/')[0];
     const imagePath = url.split('/upload/')[1];
-    return `${baseUrl}/upload/c_fill,w_${DETAIL_WIDTH},h_${DETAIL_HEIGHT},q_auto,f_auto/${imagePath}`;
+    return `${baseUrl}/upload/c_fill,w_${width},h_${Math.floor(width * 2/3)},q_auto,f_auto/${imagePath}`;
   }
   return url;
+};
+
+const getImageSrcSet = (url) => {
+  if (!url || !url.includes('cloudinary.com')) return '';
+  const widths = [400, 800, 1200, 1600];
+  return widths
+    .map(w => `${getOptimizedImageUrl(url, w)} ${w}w`)
+    .join(', ');
 };
 
 export default function PostDetail() {
@@ -99,12 +107,15 @@ export default function PostDetail() {
         {postData.CoverImage?.url && (
           <img
             src={getOptimizedImageUrl(postData.CoverImage.url)}
+            srcSet={getImageSrcSet(postData.CoverImage.url)}
+            sizes="(max-width: 768px) 100vw, 1200px"
             alt={postData.Title || 'Blog post cover image'}
-            width={DETAIL_WIDTH}
-            height={DETAIL_HEIGHT}
-            className="w-full aspect-[3/2] object-cover bg-gray-100 rounded-lg mb-8"
             loading="lazy"
-            decoding="async"
+            className="w-full h-auto rounded-lg shadow-lg"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/placeholder-image.jpg';
+            }}
           />
         )}
 
