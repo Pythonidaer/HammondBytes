@@ -4,6 +4,10 @@ import { strapiApi } from '../api/strapi';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 
+// Standard dimensions for detail view
+const DETAIL_WIDTH = 1200;
+const DETAIL_HEIGHT = Math.floor(DETAIL_WIDTH * (2/3)); // Maintaining 3:2 aspect ratio
+
 const getOptimizedImageUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('/')) {
@@ -13,7 +17,8 @@ const getOptimizedImageUrl = (url) => {
   if (url.includes('cloudinary.com')) {
     const baseUrl = url.split('/upload/')[0];
     const imagePath = url.split('/upload/')[1];
-    return `${baseUrl}/upload/q_auto,f_auto,w_1200/${imagePath}`;
+    // Force exact dimensions to prevent CLS
+    return `${baseUrl}/upload/c_fill,w_${DETAIL_WIDTH},h_${DETAIL_HEIGHT},q_auto,f_auto/${imagePath}`;
   }
   return url;
 };
@@ -94,11 +99,14 @@ export default function PostDetail() {
 
         {/* Featured image */}
         {postData.CoverImage?.url && (
-          <div className="mb-8">
+          <div className="mb-8 relative bg-gray-100 aspect-[3/2] overflow-hidden rounded-lg">
             <img
               src={getOptimizedImageUrl(postData.CoverImage.url)}
               alt={postData.Title || 'Blog post cover image'}
-              className="w-full h-full object-cover rounded-lg shadow-lg"
+              width={DETAIL_WIDTH}
+              height={DETAIL_HEIGHT}
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
         )}
