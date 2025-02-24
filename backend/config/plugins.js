@@ -10,12 +10,28 @@ module.exports = ({ env }) => ({
       actionOptions: {
         upload: {
           folder: "strapi-uploads",
-          transformation: {
-            quality: 'auto',
-            fetch_format: 'auto',
-            width: 'auto',
-            crop: 'scale',
-          },
+          transformation: [
+            // Thumbnail version
+            { 
+              width: 800, 
+              height: 533, 
+              crop: 'fill',
+              quality: 'auto',
+              fetch_format: 'auto',
+              resource_type: 'image',
+              format: 'webp'
+            },
+            // Detail version
+            { 
+              width: 1200, 
+              height: 800,
+              crop: 'fill',
+              quality: 'auto',
+              fetch_format: 'auto',
+              resource_type: 'image',
+              format: 'webp'
+            }
+          ],
         },
         delete: {},
       },
