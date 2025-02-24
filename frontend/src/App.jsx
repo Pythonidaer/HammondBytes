@@ -13,7 +13,7 @@ function App() {
       <Router>
         <div className="w-full">
           <Navbar />
-          <main className="pt-[38px] w-full">
+          <main className="pt-[50px] w-full">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/posts" element={<PostList />} />

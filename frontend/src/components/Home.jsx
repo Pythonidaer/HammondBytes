@@ -24,7 +24,7 @@ export default function Home() {
                 href="https://github.com/Pythonidaer"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 border-2 border-[#0a0a23] text-[#0a0a23] font-medium rounded-lg hover:bg-[#0a0a23] hover:text-white transition-colors"
+                className="btn-outline"
               >
                 View GitHub
               </a>

@@ -72,7 +72,7 @@ export default function PostDetail() {
       <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Post metadata */}
         <div className="mb-6">
-          <span className="text-sm text-[#002ead] uppercase font-medium tracking-wide">
+          <span className="text-sm text-[#0066cc] uppercase font-medium tracking-wide">
             {new Date(postData.publishedAt).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -90,8 +90,8 @@ export default function PostDetail() {
         <div className="flex items-center mb-8">
           <div className="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
           <div>
-            <div className="font-medium text-[#2a2a40]">Jonathan Hammond</div>
-            <div className="text-sm text-gray-600">Author</div>
+            <div className="font-medium text-[#1a1a1a]">Jonathan Hammond</div>
+            <div className="text-sm text-gray-700">Author</div>
           </div>
         </div>
 
@@ -113,7 +113,7 @@ export default function PostDetail() {
           {postData.Content?.map((block, index) => (
             <div key={index}>
               {block.children?.map((child, childIndex) => (
-                <p key={childIndex} className="mb-4 text-gray-700">
+                <p key={childIndex} className="mb-4 text-gray-900">
                   {child.text}
                 </p>
               ))}
@@ -123,7 +123,7 @@ export default function PostDetail() {
 
         {/* Back to posts link */}
         <div className="mt-12 pt-8 border-t border-gray-200">
-          <Link to="/posts" className="text-[#002ead] hover:text-[#00471b] font-medium">
+          <Link to="/posts" className="link-blue font-medium">
             ← Back to Posts
           </Link>
         </div>
