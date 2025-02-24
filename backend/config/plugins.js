@@ -6,12 +6,12 @@ module.exports = ({ env }) => ({
         cloud_name: env('CLOUDINARY_NAME'),
         api_key: env('CLOUDINARY_KEY'),
         api_secret: env('CLOUDINARY_SECRET'),
-        default_transformations: [
-          [{ fetch_format: "auto", quality: "auto" }],
-        ],
       },
       actionOptions: {
-        upload: {},
+        upload: {
+          folder: "strapi-uploads",
+          transformation: [{ fetch_format: "auto", quality: "auto" }],
+        },
         delete: {},
       },
     },
