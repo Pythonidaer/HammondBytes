@@ -123,7 +123,7 @@ export default function PostDetail() {
 
         {/* Back to posts link */}
         <div className="mt-12 pt-8 border-t border-gray-200">
-          <Link to="/posts" className="text-[#0066cc] hover:text-[#004499] font-medium">
+          <Link to="/posts" className="link-blue font-medium">
             ← Back to Posts
           </Link>
         </div>
