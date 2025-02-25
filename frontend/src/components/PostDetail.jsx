@@ -120,7 +120,7 @@ export default function PostDetail() {
         )}
 
         {/* Post content */}
-        <div className="prose prose-lg max-w-none">
+        <div className="prose prose-lg max-w-none pt-6">
           {postData.Content?.map((block, index) => (
             <div key={index}>
               {block.children?.map((child, childIndex) => (
