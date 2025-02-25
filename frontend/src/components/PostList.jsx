@@ -37,9 +37,9 @@ export default function PostList() {
   return (
     <div className="w-full overflow-x-hidden">
       {/* Profile Section */}
-      <div className="py-12 sm:py-24 mb-8 sm:mb-16 px-4">
+      <div className="py-8 sm:py-12 mb-8 sm:mb-12 px-4">
         <div className="text-center">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gray-200 rounded-full mx-auto mb-6 sm:mb-8"></div>
+          <img src="/profile_pic.png" alt="Jonathan Hammond" className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-6 sm:mb-8 object-cover" />
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#2a2a40] mb-3 sm:mb-4">Jonathan Hammond</h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-600">
             Frontend Engineer currently{' '}
