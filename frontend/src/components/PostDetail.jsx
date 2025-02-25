@@ -96,7 +96,7 @@ export default function PostDetail() {
 
         {/* Author info */}
         <div className="flex items-center mb-8">
-          <div className="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
+          <img src="/profile_pic.png" alt="Jonathan Hammond" className="w-12 h-12 rounded-full mr-4 object-cover" />
           <div>
             <div className="font-medium text-[#1a1a1a]">Jonathan Hammond</div>
             <div className="text-sm text-gray-700">Author</div>
