@@ -13,7 +13,7 @@ module.exports = [
         },
       },
       cors: {
-        origin: ['https://hammondbytes.netlify.app'],
+        origin: ['https://hammondbytes.netlify.app', 'http://localhost:5173'],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
         headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
         keepHeaderOnError: true,

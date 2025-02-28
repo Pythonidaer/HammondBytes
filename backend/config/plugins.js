@@ -1,14 +1,14 @@
 module.exports = ({ env }) => ({
   upload: {
     config: {
-      provider: 'cloudinary',
-      providerOptions: {
+      provider: env('NODE_ENV') === 'production' ? 'cloudinary' : 'local',
+      providerOptions: env('NODE_ENV') === 'production' ? {
         cloud_name: env('CLOUDINARY_NAME'),
         api_key: env('CLOUDINARY_KEY'),
         api_secret: env('CLOUDINARY_SECRET'),
-      },
+      } : {},
       actionOptions: {
-        upload: {
+        upload: env('NODE_ENV') === 'production' ? {
           folder: "strapi-uploads",
           transformation: [
             // Thumbnail version
@@ -31,10 +31,9 @@ module.exports = ({ env }) => ({
               resource_type: 'image',
               format: 'webp'
             }
-          ],
-        },
-        delete: {},
-      },
-    },
-  },
+          ]
+        } : {}
+      }
+    }
+  }
 });
