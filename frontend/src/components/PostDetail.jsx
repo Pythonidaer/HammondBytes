@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { strapiApi } from '../api/strapi';
 import { useEffect, useState } from 'react';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { preprocessBlocks } from '../utils/contentTransforms';
+import ErrorBoundary from './ErrorBoundary';
 
 // Standard dimensions for detail view
 const DETAIL_WIDTH = 1200;
@@ -85,6 +87,9 @@ export default function PostDetail() {
 
   const postData = post.data;
 
+  // Process the content blocks
+  const processedContent = preprocessBlocks(postData.Content || []);
+
   return (
     <div className="bg-white">
       <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -131,31 +136,63 @@ export default function PostDetail() {
 
         {/* Post content */}
         <div className="prose prose-lg max-w-none pt-6">
-          <BlocksRenderer
-            content={postData.Content}
-            blocks={{
-              paragraph: ({ children }) => <p className="mb-4 text-[#0a0a23]">{children}</p>,
-              heading: ({ children, level }) => {
-                const Tag = `h${level}`;
-                return <Tag className="text-[#0a0a23] font-bold mb-4">{children}</Tag>;
-              },
-              list: ({ children, format }) => {
-                const listClass = format === 'ordered' ? 'list-decimal' : 'list-disc';
-                return <ul className={`${listClass} text-[#0a0a23] ml-4 mb-4`}>{children}</ul>;
-              },
-              listItem: ({ children }) => <li className="mb-2">{children}</li>,
-              link: ({ children, url }) => (
-                <a 
-                  href={url} 
-                  className="text-blue-600 hover:text-blue-800 underline blog-links"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {children}
-                </a>
-              ),
-            }}
-          />
+          <ErrorBoundary>
+            {processedContent && processedContent.length > 0 && (
+              <div>
+                {processedContent.map((block, index) => {
+                  if (block.type === 'code-fence') {
+                    return (
+                      <pre key={index} className="bg-[#0a0a23] p-4 rounded-lg mb-4 overflow-x-auto">
+                        <code className="block whitespace-pre text-sm font-mono text-[#ff00ff] font-bold">
+                          {block.children[0].text}
+                        </code>
+                      </pre>
+                    );
+                  }
+                  
+                  return (
+                    <BlocksRenderer
+                      key={index}
+                      content={[block]}
+                      modifiers={{
+                        bold: ({ children }) => <strong>{children}</strong>,
+                        italic: ({ children }) => <em>{children}</em>,
+                        underline: ({ children }) => <u>{children}</u>,
+                        strikethrough: ({ children }) => <del>{children}</del>,
+                        code: ({ children }) => (
+                          <code className="bg-[#0a0a23] text-[#ff00ff] font-bold px-1 py-0.5 rounded">
+                            {children}
+                          </code>
+                        ),
+                      }}
+                      blocks={{
+                        paragraph: ({ children }) => <p className="mb-4 text-gray-900">{children}</p>,
+                        heading: ({ children, level }) => {
+                          const Tag = `h${level}`;
+                          return <Tag className="text-gray-900 font-bold mb-4">{children}</Tag>;
+                        },
+                        list: ({ children, format }) => {
+                          const listClass = format === 'ordered' ? 'list-decimal' : 'list-disc';
+                          return <ul className={`${listClass} text-gray-900 ml-4 mb-4`}>{children}</ul>;
+                        },
+                        listItem: ({ children }) => <li className="mb-2">{children}</li>,
+                        link: ({ children, url }) => (
+                          <a 
+                            href={url} 
+                            className="text-blue-600 hover:text-blue-800 underline blog-links"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </ErrorBoundary>
         </div>
 
         {/* Back to posts link */}
