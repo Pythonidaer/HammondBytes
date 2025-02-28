@@ -13,12 +13,39 @@ const getOptimizedImageUrl = (url) => {
   if (url.startsWith('/')) {
     return `${API_URL}${url}`;
   }
-  if (url.includes('cloudinary.com')) {
+  // Only use Cloudinary optimization in production
+  if (import.meta.env.PROD && url.includes('cloudinary.com')) {
     const baseUrl = url.split('/upload/')[0];
     const imagePath = url.split('/upload/')[1];
     return `${baseUrl}/upload/c_fill,w_${THUMBNAIL_WIDTH},h_${THUMBNAIL_HEIGHT},q_auto,f_auto/${imagePath}`;
   }
   return url;
+};
+
+const getTextFromBlocks = (blocks) => {
+  if (!blocks) return '';
+  if (typeof blocks === 'string') return blocks;
+  
+  return blocks
+    .map(block => {
+      if (block.children) {
+        return block.children
+          .map(child => child.text || '')
+          .join(' ');
+      }
+      return '';
+    })
+    .join(' ');
+};
+
+const calculateReadingTime = (content) => {
+  if (!content) return 2; // Return base time if no content
+  
+  const text = getTextFromBlocks(content);
+  const wordsPerMinute = 250;
+  const words = text.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return minutes + 2; // Add 2 minutes for technical content comprehension
 };
 
 export default function PostList() {
@@ -32,7 +59,6 @@ export default function PostList() {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!posts?.data) return <div>No posts found</div>;
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -69,9 +95,7 @@ export default function PostList() {
                     decoding="async"
                   />
                 ) : (
-                  <div className="w-full aspect-[3/2] bg-gray-100 rounded-t-lg flex items-center justify-center">
-                    <span className="text-gray-400">No image</span>
-                  </div>
+                  <div className="w-full aspect-[3/2] bg-gray-800 rounded-t-lg" />
                 )}
               </Link>
               <div className="p-4 sm:p-6">
@@ -84,7 +108,7 @@ export default function PostList() {
                   </Link>
                 </h2>
                 <p className="text-gray-300 mb-4 line-clamp-2 text-sm sm:text-base">
-                  {post.Content?.[0]?.children?.[0]?.text || 'No content available'}
+                  {getTextFromBlocks(post.Content) || 'No content available'}
                 </p>
                 <div className="flex items-center justify-between text-xs sm:text-sm text-gray-300">
                   <div className="flex items-center gap-2">
@@ -97,7 +121,7 @@ export default function PostList() {
                     <span>·</span>
                     <span>Jonathan Hammond</span>
                   </div>
-                  <span>5 min read</span>
+                  <span>{calculateReadingTime(post.Content || '')} min read</span>
                 </div>
               </div>
             </article>
