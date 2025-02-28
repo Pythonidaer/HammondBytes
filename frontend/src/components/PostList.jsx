@@ -80,7 +80,7 @@ export default function PostList() {
           {posts.data.map((post) => (
             <article 
               key={post.id} 
-              className="bg-gray-900 rounded-lg overflow-hidden flex flex-col h-full"
+              className="bg-[#0a0a23] rounded-lg overflow-hidden flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               <Link 
                 to={`/posts/${post.Slug}`}
