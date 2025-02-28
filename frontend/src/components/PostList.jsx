@@ -80,14 +80,16 @@ export default function PostList() {
           {posts.data.map((post) => (
             <article 
               key={post.id} 
-              className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="bg-[#0a0a23] rounded-lg overflow-hidden flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
-              <Link to={`/posts/${post.Slug}`} className="block">
-                {/* Use CSS aspect-ratio instead of a div wrapper */}
+              <Link 
+                to={`/posts/${post.Slug}`}
+                className="block"
+              >
                 {post.CoverImage?.url ? (
                   <img
                     src={getOptimizedImageUrl(post.CoverImage.url)}
-                    alt={post.Title || 'Blog post image'}
+                    alt={post.Title}
                     width={THUMBNAIL_WIDTH}
                     height={THUMBNAIL_HEIGHT}
                     className="w-full aspect-[3/2] object-cover bg-gray-100 rounded-t-lg"
@@ -98,7 +100,7 @@ export default function PostList() {
                   <div className="w-full aspect-[3/2] bg-gray-800 rounded-t-lg" />
                 )}
               </Link>
-              <div className="p-4 sm:p-6">
+              <div className="p-4 sm:p-6 flex flex-col flex-grow">
                 <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">
                   <Link 
                     to={`/posts/${post.Slug}`}
@@ -110,7 +112,7 @@ export default function PostList() {
                 <p className="text-gray-300 mb-4 line-clamp-2 text-sm sm:text-base">
                   {getTextFromBlocks(post.Content) || 'No content available'}
                 </p>
-                <div className="flex items-center justify-between text-xs sm:text-sm text-gray-300">
+                <div className="mt-auto flex items-center justify-between text-xs sm:text-sm text-gray-300">
                   <div className="flex items-center gap-2">
                     <time>
                       {new Date(post.publishedAt).toLocaleDateString('en-US', {
