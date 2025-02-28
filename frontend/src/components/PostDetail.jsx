@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { strapiApi } from '../api/strapi';
 import { useEffect, useState } from 'react';
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 
 // Standard dimensions for detail view
 const DETAIL_WIDTH = 1200;
@@ -130,15 +131,31 @@ export default function PostDetail() {
 
         {/* Post content */}
         <div className="prose prose-lg max-w-none pt-6">
-          {postData.Content?.map((block, index) => (
-            <div key={index}>
-              {block.children?.map((child, childIndex) => (
-                <p key={childIndex} className="mb-4 text-gray-900">
-                  {child.text}
-                </p>
-              ))}
-            </div>
-          ))}
+          <BlocksRenderer
+            content={postData.Content}
+            blocks={{
+              paragraph: ({ children }) => <p className="mb-4 text-[#0a0a23]">{children}</p>,
+              heading: ({ children, level }) => {
+                const Tag = `h${level}`;
+                return <Tag className="text-[#0a0a23] font-bold mb-4">{children}</Tag>;
+              },
+              list: ({ children, format }) => {
+                const listClass = format === 'ordered' ? 'list-decimal' : 'list-disc';
+                return <ul className={`${listClass} text-[#0a0a23] ml-4 mb-4`}>{children}</ul>;
+              },
+              listItem: ({ children }) => <li className="mb-2">{children}</li>,
+              link: ({ children, url }) => (
+                <a 
+                  href={url} 
+                  className="text-blue-600 hover:text-blue-800 underline blog-links"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {children}
+                </a>
+              ),
+            }}
+          />
         </div>
 
         {/* Back to posts link */}

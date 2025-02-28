@@ -22,21 +22,19 @@ const getOptimizedImageUrl = (url) => {
   return url;
 };
 
-const getTextFromBlocks = (blocks) => {
+// Helper function to get plain text from Strapi blocks
+function getTextFromBlocks(blocks) {
   if (!blocks) return '';
-  if (typeof blocks === 'string') return blocks;
   
-  return blocks
-    .map(block => {
-      if (block.children) {
-        return block.children
-          .map(child => child.text || '')
-          .join(' ');
-      }
-      return '';
-    })
-    .join(' ');
-};
+  return blocks.map(block => {
+    if (block.type === 'paragraph') {
+      return block.children
+        .map(child => child.text)
+        .join('')
+    }
+    return '';
+  }).join('\n').trim();
+}
 
 const calculateReadingTime = (content) => {
   if (!content) return 2; // Return base time if no content

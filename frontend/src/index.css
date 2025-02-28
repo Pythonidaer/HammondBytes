@@ -98,6 +98,16 @@ a:not(.btn-nav-inverse):not(.btn-outline):not(.link-blue):hover {
   color: rgba(255, 255, 255, 0.8);
 }
 
+a.blog-links {
+  color: #004499 !important;
+}
+
+a.blog-links:hover {
+  transition: all 0.2s ease-in-out;
+  text-decoration: underline !important;
+  color: #0a0a23 !important;
+}
+
 body {
   margin: 0;
   display: flex;
