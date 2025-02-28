@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { strapiApi } from '../api/strapi';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
+import { useEffect, useState } from 'react';
 
 // Standard dimensions for detail view
 const DETAIL_WIDTH = 1200;
@@ -11,7 +10,7 @@ const DETAIL_HEIGHT = 800; // 3:2 aspect ratio
 const getOptimizedImageUrl = (url, width = DETAIL_WIDTH) => {
   if (!url) return '';
   if (url.startsWith('/')) {
-    return `${API_URL}${url}`;
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:1337'}${url}`;
   }
   if (url.includes('cloudinary.com')) {
     const baseUrl = url.split('/upload/')[0];
@@ -31,6 +30,20 @@ const getImageSrcSet = (url) => {
 
 export default function PostDetail() {
   const { id: slug } = useParams();
+  const [readingProgress, setReadingProgress] = useState(0);
+
+  useEffect(() => {
+    const updateReadingProgress = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      setReadingProgress(Math.min(100, Math.max(0, progress)));
+    };
+
+    window.addEventListener('scroll', updateReadingProgress);
+    updateReadingProgress();
+
+    return () => window.removeEventListener('scroll', updateReadingProgress);
+  }, []);
 
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['post', slug],
@@ -49,17 +62,13 @@ export default function PostDetail() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="text-center text-red-600 p-4">
-        Error loading post: {error.message}
-      </div>
-    );
+    return <div className="text-center text-red-500 mt-8">Error loading post: {error.message}</div>;
   }
 
   if (!post?.data) {
