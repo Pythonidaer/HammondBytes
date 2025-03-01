@@ -33,19 +33,10 @@ const getImageSrcSet = (url) => {
 
 export default function PostDetail() {
   const { id: slug } = useParams();
-  const [readingProgress, setReadingProgress] = useState(0);
 
+  // Scroll to top when component mounts
   useEffect(() => {
-    const updateReadingProgress = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalHeight) * 100;
-      setReadingProgress(Math.min(100, Math.max(0, progress)));
-    };
-
-    window.addEventListener('scroll', updateReadingProgress);
-    updateReadingProgress();
-
-    return () => window.removeEventListener('scroll', updateReadingProgress);
+    window.scrollTo(0, 0);
   }, []);
 
   const { data: post, isLoading, error } = useQuery({
