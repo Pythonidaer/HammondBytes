@@ -50,7 +50,7 @@ export default function PostList() {
   const { data: posts, isLoading, error } = useQuery({
     queryKey: ['posts'],
     queryFn: async () => {
-      const response = await strapiApi.get('/posts?populate=*');
+      const response = await strapiApi.get('/posts?populate=*&sort=createdAt:desc');
       return response.data;
     },
   });
