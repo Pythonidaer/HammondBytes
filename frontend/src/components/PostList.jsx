@@ -113,7 +113,7 @@ export default function PostList() {
                 <div className="mt-auto flex items-center justify-between text-xs sm:text-sm text-gray-300">
                   <div className="flex items-center gap-2">
                     <time>
-                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                      {new Date(post.createdAt).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
