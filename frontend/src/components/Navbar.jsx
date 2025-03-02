@@ -77,7 +77,7 @@ export default function Navbar() {
         </div>
       </nav>
       {isPostDetail && (
-        <div className="fixed top-[50px] left-0 w-full h-[5px] z-40 bg-gray-100">
+        <div className="fixed top-[50px] left-0 w-full h-[5px] z-40 bg-transparent">
           <div
             className="h-full"
             style={{
