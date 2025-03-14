@@ -170,7 +170,7 @@ export default function PostDetail() {
                         link: ({ children, url }) => (
                           <a 
                             href={url} 
-                            className="text-blue-600 hover:text-blue-800 underline blog-links"
+                            className="text-[#004499] hover:text-[#0a0a23] hover:underline transition-all duration-200 ease-in-out"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -188,7 +188,7 @@ export default function PostDetail() {
 
         {/* Back to posts link */}
         <div className="mt-12 pt-8 border-t border-gray-200">
-          <Link to="/posts" className="link-blue font-medium">
+          <Link to="/posts" className="text-[#0066cc] no-underline font-medium hover:text-[#004499]">
             ← Back to Posts
           </Link>
         </div>

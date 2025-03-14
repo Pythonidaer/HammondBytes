@@ -69,7 +69,7 @@ export default function Navbar() {
             </a>
             <Link
               to="/posts"
-              className="btn-nav-inverse"
+              className="bg-white text-[#0a0a23] px-4 py-1 text-sm font-medium rounded-2xl border border-white transition-all duration-200 no-underline hover:bg-[#0a0a23] hover:text-white"
             >
               Blog
             </Link>
