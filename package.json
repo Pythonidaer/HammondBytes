@@ -1,5 +1,11 @@
 {
   "dependencies": {
     "@strapi/provider-upload-cloudinary": "^5.10.3"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run develop --prefix backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
